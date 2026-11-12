@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inside the Wired</title>
+  <style>
+    body {
+      background: black;
+      color: limegreen;
+      font-family: monospace;
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .monitor {
+      display: none;
+      background: #222;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: inset 0 0 40px #000, 0 0 40px #00ffcc, 15px 20px 50px #000;
+      display: inline-block;
+      position: relative;
+    }
+
+    .screen {
+      width: 640px;
+      height: 360px;
+      background: #111;
+      border: 8px solid #000;
+      border-radius: 12px;
+      box-shadow: inset 0 0 25px rgba(0,255,204,0.3), inset 0 0 60px #000;
+      padding: 10px;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: perspective(800px) rotateX(2deg);
+      display: flex;
+    }
+
+    h2 {
+      margin: 0;
+      text-align: center;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+      font-size: 1rem;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0;
+    }
+
+    .button {
+      background: #000;
+      border: 1px solid #00ffcc;
+      padding: 5px 10px;
+      cursor: pointer;
+      color: #00ffcc;
+      box-shadow: 0 0 5px #00ffcc;
+      transition: background 0.2s ease;
+      font-size: 0.8rem;
+    }
+    .button:hover {
+      background: rgba(0,255,204,0.2);
+    }
+
+    .window {
+      flex: 1;
+      background: #000;
+      border: 2px solid #00ffcc;
+      padding: 5px;
+      overflow: hidden;
+      box-shadow: inset 0 0 20px #00ffcc;
+      position: relative;
+    }
+
+    .window iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .stand {
+      width: 200px;
+      height: 30px;
+      background: #222;
+      margin: 15px auto 0 auto;
+      border-radius: 8px;
+      box-shadow: inset 0 0 10px #000, 0 5px 15px #000;
+    }
+  </style>
+</head>
+<body>
+  <!-- Monitor + Screen -->
+  <div class="monitor" id="monitor">
+    <div class="screen" id="screen">
+      <h2>WIRED OS v1.0</h2>
+      <div class="menu">
+        <div class="button" onclick="openEmails()">📧 Emails</div>
+        <div class="button" onclick="openFiles()">📂 Files</div>
+        <div class="button" onclick="openTerminal()">💻 Terminal</div>
+        <div class="button" onclick="openMissions()">🎯 Missions</div>
+        <div class="button" onclick="openForum()">💬 Forum</div>
+        <div class="button" onclick="goHome()">🏠 Home</div>
+      </div>
+      <div class="window" id="window">
+        <iframe id="wiredVideo"
+          src="https://www.youtube.com/embed/vsjJhW0FEHE?autoplay=1&loop=1&playlist=vsjJhW0FEHE&controls=0&modestbranding=1&showinfo=0"
+          title="Wired Video"
+          allow="autoplay; encrypted-media">
+        </iframe>
+      </div>
+    </div>
+    <div class="stand"></div>
+  </div>
+
+  <script>
+    const win = document.getElementById("window");
+    let failedAttempts = 0;
+
+    function openEmails() {
+      win.innerHTML = `
+        <h3>Email Inbox</h3>
+        <p>From: GOD<br>Subject: Welcome to the Wired<br>
+        Message: You have entered the domain beyond flesh and time. 
+        Your journey begins now...</p>
+        <p>From: Chisa Yomoda<br>Subject: I'm still here...</p>
+        <div class="button" onclick="goHome()">⬅ Back</div>
+      `;
+    }
+
+    function openFiles() {
+      win.innerHTML = `
+        <h3>Files</h3>
+        <p>- protocol7.txt (requires password)<br>- wired_access.log<br>- lain_diary.doc</p>
+        <input type="text" id="filePassword" placeholder="Enter password for protocol7.txt">
+        <div class="button" onclick="checkProtocol()">Unlock</div>
+        <div class="button" onclick="goHome()">⬅ Back</div>
+      `;
+    }
+
+    function checkProtocol() {
+      const input = document.getElementById("filePassword").value.trim().toLowerCase();
+      if (input === "queenofhearts") {
+        win.innerHTML = `
+          <h3>protocol7.txt</h3>
+          <p>ACCESS GRANTED<br>Username: seeker_of_truth</p>
+          <div class="button" onclick="goHome()">⬅ Back</div>
+        `;
+      } else {
+        failedAttempts++;
+        if (failedAttempts >= 3) {
+          win.innerHTML = `
+            <h3>Email Inbox</h3>
+            <p>From: GOD<br>Subject: The Answer Awaits<br>
+            Message: you'll get all your answers chisayomoda33 here...<br><br>
+            Hint: chisayomoda33</p>
+            <div class="button" onclick="goHome()">⬅ Back</div>
+          `;
+          failedAttempts = 0;
+        } else {
+          alert("Incorrect password. Try again.");
+        }
+      }
+    }
+
+    // Fixed Terminal
+    function openTerminal() {
+      win.innerHTML = `
+        <h3>Terminal</h3>
+        <div id="terminalWindow" style="background:black; color:limegreen; font-family:monospace; padding:10px; height:200px; overflow-y:auto; border:1px solid #00ffcc;">
+          <div>> Welcome to Wired Terminal (type 'help' for commands)</div>
+        </div>
+        <input type="text" id="innerCommand" placeholder="Enter command..." style="width:100%; background:black; color:limegreen; border:1px solid #00ffcc; font-family:monospace;">
+        <div class="button" onclick="goHome()">⬅ Back</div>
+      `;
+      const terminalWindow = document.getElementById("terminalWindow");
+      const input = document.getElementById("innerCommand");
+
+      input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          const cmd = this.value.trim();
+          this.value = "";
+          runCommand(cmd, terminalWindow);
+        }
+      });
+    }
+
+    function runCommand(cmd, terminalWindow) {
+      let output = "";
+      switch(cmd) {
+        case "help":
+          output = "Available commands: ls, pwd, echo, cat, clear, whoami, date, exit";
+          break;
+        case "ls":
+          output = "protocol7.txt  wired_access.log  lain_diary.doc";
+          break;
+        case "pwd":
+          output = "/home/wired";
+          break;
+        case "whoami":
+          output = "wired_user";
+          break;
+        case "date":
+          output = new Date().toUTCString(); // safe UTC time
+          break;
+        case "echo":
+          output = "Usage: echo [text]";
+          break;
+        case "clear":
+          terminalWindow.innerHTML = "";
+          return;
+        case "exit":
+          output = "Exiting terminal...";
+          setTimeout(() => goHome(), 1000);
+          break;
+        default:
+          if (cmd.startsWith("echo ")) {
+            output = cmd.slice(5);
+          } else if (cmd.startsWith("cat ")) {
+            const file = cmd.slice(4);
+            if (file === "protocol7.txt") {
+              output = "ACCESS DENIED (password required)";
+            } else if (file === "wired_access.log") {
+              output = "Log entry: Connection established...\nLog entry: User authenticated...";
+            } else if (file === "lain_diary.doc") {
+              output = "Diary fragment: 'I feel the Wired is more real than the flesh...'";
+            } else {
+              output = `cat: ${file}: No such file`;
+            }
+          } else {
+            output = `Unknown command: ${cmd}`;
+          }
+      }
+       terminalWindow.innerHTML += `<div>> ${cmd}</div><div>${output}</div>`;
+      terminalWindow.scrollTop = terminalWindow.scrollHeight;
+    }
+
+    function openMissions() {
+      win.innerHTML = `
+        <h3>Mission Control</h3>
+        <p>- Mission 1: Decode protocol7.txt<br>
+        - Mission 2: Trace wired_access.log<br>
+        - Mission 3: Unlock diary fragments</p>
+        <div class="button" onclick="goHome()">⬅ Back</div>
+      `;
+    }
+
+    function goHome() {
+      win.innerHTML = `
+        <iframe id="wiredVideo"
+          src="https://www.youtube.com/embed/vsjJhW0FEHE?autoplay=1&loop=1&playlist=vsjJhW0FEHE&controls=0&modestbranding=1&showinfo=0"
+          title="Wired Video"
+          allow="autoplay; encrypted-media">
+        </iframe>
+      `;
+    }
+
+    // Forum redirect
+    function openForum() {
+      window.location.href = "wiredforum.html";
+    }
+  </script>
+</body>
+</html>
