@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Layer 1 - Wired Keypad Phone</title>
+  <style>
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Courier New', monospace;
+      color: #00ffcc;
+      margin: 0;
+    }
+
+    .phone {
+      width: 280px;
+      height: 520px;
+      background: #111;
+      border: 3px solid #00ffcc;
+      border-radius: 25px;
+      box-shadow: 0 0 20px #00ffcc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 15px;
+      position: relative;
+    }
+
+    .screen {
+      width: 90%;
+      height: 250px;
+      background: #000;
+      border: 2px solid #00ffcc;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: inset 0 0 10px #00ffcc;
+      overflow-y: auto;
+      z-index: 2;
+    }
+
+    h4 {
+      margin: 0 0 8px 0;
+      color: #00ffcc;
+    }
+
+    .button {
+      background: #000;
+      border: 1px solid #00ffcc;
+      border-radius: 5px;
+      padding: 8px;
+      margin: 5px;
+      text-align: center;
+      cursor: pointer;
+      color: #00ffcc;
+      box-shadow: 0 0 5px #00ffcc;
+      transition: background 0.2s ease;
+    }
+
+    .button:hover {
+      background: rgba(0,255,204,0.2);
+    }
+
+    .divider {
+      width: 90%;
+      height: 2px;
+      background: #00ffcc;
+      margin-top: 15px;
+      box-shadow: 0 0 5px #00ffcc;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      margin-top: 20px;
+      width: 90%;
+      z-index: 1;
+    }
+
+    .key {
+      background: #000;
+      border: 1px solid #00ffcc;
+      border-radius: 5px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      color: #00ffcc;
+      box-shadow: 0 0 5px #00ffcc;
+      transition: background 0.2s ease;
+    }
+
+    .key:hover {
+      background: rgba(0,255,204,0.2);
+    }
+
+    iframe {
+      width: 100%;
+      height: 200px;
+      border: none;
+    }
+
+    img {
+      max-width: 100%;
+      border: 2px solid #00ffcc;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #00ffcc;
+      margin-top: 10px;
+    }
+
+    input {
+      background: black;
+      border: 1px solid #00ffcc;
+      color: #00ffcc;
+      padding: 5px;
+      width: 80%;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="screen" id="screen">
+      <h4>Home Screen</h4>
+      <div class="button" onclick="openEmails()">📧 Emails</div>
+      <div class="button" onclick="openVideos()">🎥 Videos</div>
+      <div class="button" onclick="openPhotos()">🖼 Photos</div>
+      <div class="button" onclick="openWired()">🌐 Connect to Wired</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="keypad">
+      <div class="key">1</div><div class="key">2</div><div class="key">3</div>
+      <div class="key">4</div><div class="key">5</div><div class="key">6</div>
+      <div class="key">7</div><div class="key">8</div><div class="key">9</div>
+      <div class="key">*</div><div class="key">0</div><div class="key">#</div>
+    </div>
+
+    <div class="button" style="margin-top:10px;" onclick="goHome()">🏠 Home</div>
+  </div>
+
+  <script>
+    const screen = document.getElementById("screen");
+
+    function goHome() {
+      screen.innerHTML = `
+        <h4>Home Screen</h4>
+        <div class="button" onclick="openEmails()">📧 Emails</div>
+        <div class="button" onclick="openVideos()">🎥 Videos</div>
+        <div class="button" onclick="openPhotos()">🖼 Photos</div>
+        <div class="button" onclick="openWired()">🌐 Connect to Wired</div>
+      `;
+    }
+
+    function openEmails() {
+      screen.innerHTML = `
+        <h4>Email Inbox</h4>
+        <div class="button" onclick="readEmail()">From: Chisa Yomoda<br>Subject: I'm still here...</div>
+        <div class="button" onclick="goHome()">⬅ Back</div>
+      `;
+    }
+
+    function readEmail() {
+      screen.innerHTML = `
+        <h4>Email</h4>
+        "I only abandoned my body.<br>
+        I am still alive inside the Wired.<br>
+        God is here too."<br><br>
+        <strong>Present day, present time.</strong>
+        <div class="button" onclick="goHome()">⬅ Back</div>
+      `;
+    }
+
+    function openVideos() {
+      screen.innerHTML = `
+        <h4>Videos</h4>
+        <div class="button" onclick="playVideo1()">▶ Video 1</div>
+        <div class="button" onclick="goHome()">⬅ Back</div>
+      `;
+    }
+
+    function playVideo1() {
+      screen.innerHTML = `
+        <h4>Video 1</h4>
+        <iframe src="https://www.youtube.com/embed/MM8RufZr5lw?controls=0&autoplay=1"
+          title="YouTube video player" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="button" onclick="openVideos()">⬅ Back</div>
+      `;
+    }
+
+    function openPhotos() {
+      screen.innerHTML = `
+        <h4>Photos</h4>
+        <div class="button" onclick="showImg1()">🖼 Image 1</div>
+        <div class="button" onclick="showImg2()">🖼 Image 2</div>
+        <p style="margin-top:10px; font-size:0.9rem; color:#00ffcc;">Hint: One of these holds the Wired key...</p>
+        <div class="button" onclick="goHome()">⬅ Back</div>
+      `;
+    }
+
+    function showImg1() {
+      screen.innerHTML = `
+        <h4>Image 1</h4>
+        <img src="https://iili.io/CwpXhzB.jpg" alt="Image 1">
+        <div class="button" onclick="openPhotos()">⬅ Back</div>
+      `;
+    }
+
+    function showImg2() {
+      screen.innerHTML = `
+        <h4>Image 2</h4>
+        <img src="https://iili.io/CwpXjWP.jpg" alt="Image 2">
+        <div class="button" onclick="openPhotos()">⬅ Back</div>
+      `;
+    }
+
+    function openWired() {
+      screen.innerHTML = `
+        <h4>Connect to Wired</h4>
+        <p style="font-size:0.9rem; color:#00ffcc;">Password hint: Check the Photos tab...</p>
+        <input type="password" id="wiredPass" placeholder="Enter password">
+        <div class="button" onclick="checkWired()">Submit</div>
+        <div class="button" onclick="goHome()">⬅ Back</div>
+      `;
+    }
+
+    function checkWired() {
+      const pass = document.getElementById("wiredPass").value.trim();
+      if (pass.toLowerCase() === "taro") {
+        screen.innerHTML = `
+          <h4>Connecting...</h4>
+          <p>Establishing link to the Wired...</p>
+        `;
+        setTimeout(() => {
+          window.location.href = "layer2.html";
+        }, 1500);
+      } else {
+        alert("Incorrect password. Try again.");
+      }
+    }
+  </script>
