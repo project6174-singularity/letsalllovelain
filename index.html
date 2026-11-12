@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lain Landing Page</title>
+  <style>
+    body {
+      background: black;
+      color: limegreen;
+      font-family: monospace;
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: perspective(800px) scale(1.02) rotateX(2deg);
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+
+    .scanlines {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 0, 0.05) 0px,
+        rgba(0, 255, 0, 0.05) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      z-index: 2;
+    }
+
+    .box {
+      background: rgba(0,0,0,0.85);
+      border: 2px solid limegreen;
+      padding: 20px;
+      text-align: center;
+      z-index: 1;
+      filter: drop-shadow(0 0 5px limegreen) drop-shadow(0 0 10px limegreen);
+    }
+
+    .lain {
+      font-size: 3rem;
+      letter-spacing: 0.5rem;
+      animation: flicker 2s infinite, glow 3s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+      20%, 22%, 24%, 55% { opacity: 0; }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px limegreen, 0 0 10px limegreen; }
+      to { text-shadow: 0 0 20px limegreen, 0 0 40px limegreen; }
+    }
+
+    .password-box {
+      margin-top: 20px;
+    }
+
+    input {
+      background: black;
+      border: 1px solid limegreen;
+      color: limegreen;
+      padding: 5px;
+      font-family: monospace;
+    }
+
+    button {
+      background: limegreen;
+      border: none;
+      color: black;
+      padding: 5px 10px;
+      margin-left: 5px;
+      cursor: pointer;
+      font-family: monospace;
+    }
+
+    .video-container {
+      display: none;
+      margin-top: 20px;
+      z-index: 1;
+    }
+
+    iframe {
+      border: none;
+    }
+
+    #access-granted {
+      display: none;
+      color: limegreen;
+      font-family: monospace;
+      font-size: 2rem;
+      animation: glitch 0.2s infinite;
+      margin-top: 20px;
+      z-index: 1;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 2px 2px red; }
+      25% { text-shadow: -2px -2px blue; }
+      50% { text-shadow: 2px -2px limegreen; }
+      75% { text-shadow: -2px 2px magenta; }
+      100% { text-shadow: 0 0 5px limegreen; }
+    }
+
+    .continue-btn {
+      display: none;
+      margin-top: 20px;
+      background: black;
+      border: 2px solid limegreen;
+      color: limegreen;
+      padding: 10px 20px;
+      font-family: monospace;
+      cursor: pointer;
+      box-shadow: 0 0 10px limegreen;
+      animation: glowBtn 2s infinite alternate;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    @keyframes glowBtn {
+      from { box-shadow: 0 0 5px limegreen; }
+      to { box-shadow: 0 0 20px limegreen; }
+    }
+
+    .easter-egg {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: limegreen;
+      font-family: monospace;
+      font-size: 2rem;
+      animation: glitch 0.2s infinite;
+      z-index: 3;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="box">
+    <div class="lain">LAIN</div>
+    <div class="password-box">
+      <input type="password" id="password" placeholder="Enter password">
+      <button onclick="checkPassword()">Submit</button>
+    </div>
+  </div>
+
+  <div id="access-granted">ACCESS GRANTED</div>
+
+  <div class="video-container" id="video">
+    <iframe width="560" height="315"
+      src="https://www.youtube.com/embed/X1TSOvYHMrU?autoplay=1&loop=1&playlist=X1TSOvYHMrU&controls=0&modestbranding=1&showinfo=0"
+      title="YouTube video player"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <button class="continue-btn" id="continueBtn" onclick="window.location.href='layer1.html'">Let's Continue...</button>
+
+  <div class="scanlines"></div>
+
+  <script>
+    function checkPassword() {
+      const input = document.getElementById('password').value;
+      const correctPassword = "protocol7";
+      if (input === correctPassword) {
+        document.querySelector('.box').style.display = 'none';
+        document.getElementById('access-granted').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('access-granted').style.display = 'none';
+          document.getElementById('video').style.display = 'block';
+          // Show "Let's Continue..." button after 30 seconds of video playback
+          setTimeout(() => {
+            const btn = document.getElementById('continueBtn');
+            btn.style.display = 'block';
+            setTimeout(() => btn.style.opacity = 1, 100); // fade-in effect
+          }, 30000);
+        }, 2000);
+      } else {
+        alert("Incorrect password. Try again.");
+      }
+    }
+
+    // Matrix ASCII Rain
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const phrase = "LET'S ALL LOVE LAIN";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for (let x = 0; x < columns; x++) drops[x] = 1;
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const text = phrase.charAt(Math.floor(Math.random() * phrase.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 33);
+
+    // Easter Egg: Reveal secret word when pressing "W"
+    document.addEventListener('keydown', function(event) {
+      if (event.key.toLowerCase() === 'w') {
+        const secretWord = document.createElement('div');
+        secretWord.className = 'easter-egg';
+        secretWord.innerText = "THE WIRED";
+        document.body.appendChild(secretWord);
+        setTimeout(() => secretWord.remove(), 3000);
+      }
+    });
+  </script>
+</body>
+</html>
