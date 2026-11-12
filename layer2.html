@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Entering the Wired</title>
+  <style>
+    body {
+      background: #000;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .wired-image {
+      width: 320px;
+      height: auto;
+      border: 2px solid #00ffcc;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00ffcc;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+      transition: opacity 1s ease;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .loading-text {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #ff0044;
+      text-shadow: 0 0 10px #ff0044;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.2; }
+      50% { opacity: 1; }
+      100% { opacity: 0.2; }
+    }
+  </style>
+</head>
+<body>
+  <img id="wiredImage" src="https://iili.io/CwNNFta.jpg" alt="Wired Entry" class="wired-image">
+  <div class="loading-text" id="loadingText">Loading...</div>
+
+  <script>
+    const images = [
+      "https://iili.io/CwNNFta.jpg",
+      "https://iili.io/CwN6gP1.jpg",
+      "https://iili.io/CwN64KF.jpg",
+      "https://iili.io/CwN66cg.jpg",
+      "https://iili.io/CwNml0Q.jpg",
+      "https://iili.io/CwNmYsj.jpg",
+      "https://iili.io/CwNm7Wb.jpg",
+      "https://iili.io/CwO9yhX.jpg",
+      "https://iili.io/CwOHJBs.jpg",
+      "https://iili.io/CwOHdEG.jpg"
+    ];
+
+    let index = 0;
+    const imgElement = document.getElementById("wiredImage");
+    const textElement = document.getElementById("loadingText");
+
+    // Loop through images every 2 seconds for 15 seconds total
+    const interval = setInterval(() => {
+      index = (index + 1) % images.length;
+      imgElement.style.opacity = 0;
+      setTimeout(() => {
+        imgElement.src = images[index];
+        imgElement.style.opacity = 1;
+      }, 500);
+    }, 2000);
+
+    // After 15 seconds, redirect to inwired.html
+    setTimeout(() => {
+      clearInterval(interval);
+      textElement.textContent = "Connection established...";
+      textElement.style.color = "#00ffcc";
+      textElement.style.textShadow = "0 0 10px #00ffcc";
+      setTimeout(() => {
+        window.location.href = "inwired.html";
+      }, 3000);
+    }, 15000);
+  </script>
+</body>
+</html>
